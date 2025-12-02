@@ -92,8 +92,9 @@ public class FracCalc {
    public static String provideHelp() {
       // TODO: Update this help text!
      
-      String help = "Input valid argument.\n";
-      help += "Performs arithmetic operations";
+      String help = "This program performs arithmetic (+,-,/,*) operations.\n";
+      help += "Enter your expression in the format \"Fraction operator fraction\". For example, 2/3 + 4/5.\n";
+      help += "To create proper fractions, place a '_' where there is a space. For example, 1_1/2 (3/2).";
       
       return help;
    }
