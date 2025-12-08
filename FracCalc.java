@@ -87,12 +87,11 @@ public class FracCalc {
       // parse second Operand
       // parse num
       // parse denom
-      parseOperator(input);
+      String operator = parseOperator(input);
 
       // This is good:
-      //String parsedExpression = "Op:" + operator + " Whole:" + whole + " Num:" + num + " Den:" + den;
-      // Return parsedExpression
-      return input;
+      String parsedExpression = "Op:" + operator + " Whole:" /*+ whole +  " Num:" + num + " Den:" + den */;
+      return parsedExpression;
 
    }
    
@@ -100,7 +99,8 @@ public class FracCalc {
    // to use the program. These are instructions to the user.
    public static String provideHelp() {
       String help = "This program performs arithmetic (+,-,/,*) operations.\n";
-      help += "Enter your expression in the format \"Fraction operator fraction\". For example, 2/3 + 4/5.\n";
+      help += "Enter your expression in the format \"number operator number\" or \"fraction operator fraction\".\n";
+      help += "For example, 1 + 2, 1 + 1/2, or 2/3 + 4/5\n";
       help += "To create mixed fractions, place a '_' where there is a space. For example, 1_1/2 (3/2).";
       
       return help;
@@ -108,8 +108,23 @@ public class FracCalc {
 
    public static String parseOperator(String input){
       Scanner parser = new Scanner(input);
-
       String operator = "";
+
+      while(parser.hasNext()){
+         String token = parser.next();
+
+         if(token.equals("+") || token.equals("-") || token.equals("/") || token.equals("*")){
+            operator = token;
+            break;
+         }
+      }
+      return operator;
+   }
+
+   public static String parseSecOperand(String input){
+      Scanner parser = new Scanner(input);
+      String operator = "";
+
       return operator;
    }
 
