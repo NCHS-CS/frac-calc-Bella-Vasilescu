@@ -81,23 +81,18 @@ public class FracCalc {
    //        2 1/8
    //        2 1/4
    public static String processExpression(String input) {
-      // Implemented method for test 
-      Scanner parser = new Scanner(input);
-      String operator = ;
-      String whole = ;
-      String num = ;
-      String denom = ;
+      
+      //Use HELPER METHODS (need 3-4)
+      // parse operator
+      // parse second Operand
+      // parse num
+      // parse denom
+      parseOperator(input);
 
-      while (parser.hasNext()){
-         String token = parser.next();
-
-         //Checks for each component
-         if(token.equals("+") || token.equals("-") || token.equals("/") || token.equals("*")){
-            operator = token;
-         }
-      }
-        System.out.println("");
-        return input;
+      // This is good:
+      //String parsedExpression = "Op:" + operator + " Whole:" + whole + " Num:" + num + " Den:" + den;
+      // Return parsedExpression
+      return input;
 
    }
    
@@ -110,5 +105,13 @@ public class FracCalc {
       
       return help;
    }
+
+   public static String parseOperator(String input){
+      Scanner parser = new Scanner(input);
+
+      String operator = "";
+      return operator;
+   }
+
 }
 
