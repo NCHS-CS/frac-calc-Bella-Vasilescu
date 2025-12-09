@@ -118,19 +118,30 @@ public class FracCalc {
 
    public static void parseOperand(String operandString){
       
+      //Check for indexes of '_' and "/"
       int underIndex = operandString.indexOf('_');
-      String wholeString = operandString.substring(0, underIndex);
-      whole = Integer.parseInt(wholeString);
-      System.out.println("whole is: " + wholeString);
-
       int fracIndex = operandString.indexOf('/');
-      String numString = operandString.substring(underIndex + 1, fracIndex);
-      String denomString = operandString.substring(fracIndex + 1);
-      num = Integer.parseInt(numString);
-      denom = Integer.parseInt(denomString);
-      System.out.println("num is: " + numString);
-      System.out.println("denom is: " + denomString);
 
+      
+      if(underIndex != -1 && fracIndex != -1){ //If both exist...
+         String wholeString = operandString.substring(0, underIndex);
+         whole = Integer.parseInt(wholeString);
+         String numString = operandString.substring(underIndex + 1, fracIndex);
+         String denomString = operandString.substring(fracIndex + 1);
+         num = Integer.parseInt(numString);
+         denom = Integer.parseInt(denomString);
+      } else if(underIndex == -1 && fracIndex != -1){ //If only '/' exists...
+         whole = 0;
+         String numString = operandString.substring(underIndex + 1, fracIndex);
+         String denomString = operandString.substring(fracIndex + 1);
+         num = Integer.parseInt(numString);
+         denom = Integer.parseInt(denomString);
+      } else { //If none exist...
+         whole = Integer.parseInt(operandString);
+         num = 0;
+         denom = 1;
+      }
+      
       removeDoubleNeg();
    }
 
@@ -144,5 +155,6 @@ public class FracCalc {
       }
    }
 
+   
 }
 
