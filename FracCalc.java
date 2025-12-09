@@ -87,10 +87,15 @@ public class FracCalc {
       // parse second Operand
       // parse num
       // parse denom
-      String operator = parseOperator(input);
+      Scanner parser = new Scanner(input);
+      String operand1 = parser.next();
+      String operator = parser.next();
+      String operand2 = parser.next(); 
+
+      parseOperand(operand2);
 
       // This is good:
-      String parsedExpression = "Op:" + operator + " Whole:" /*+ whole +  " Num:" + num + " Den:" + den */;
+      String parsedExpression = "Op:" + operator + " Whole:" + whole  + " Num:" + num + " Den:" + denom;
       return parsedExpression;
 
    }
@@ -106,26 +111,37 @@ public class FracCalc {
       return help;
    }
 
-   public static String parseOperator(String input){
-      Scanner parser = new Scanner(input);
-      String operator = "";
+   public static int operand1 = 0;
+   public static int whole = 0;
+   public static int num = 0;
+   public static int denom = 0;
 
-      while(parser.hasNext()){
-         String token = parser.next();
+   public static void parseOperand(String operandString){
+      
+      int underIndex = operandString.indexOf('_');
+      String wholeString = operandString.substring(0, underIndex);
+      whole = Integer.parseInt(wholeString);
+      System.out.println("whole is: " + wholeString);
 
-         if(token.equals("+") || token.equals("-") || token.equals("/") || token.equals("*")){
-            operator = token;
-            break;
-         }
-      }
-      return operator;
+      int fracIndex = operandString.indexOf('/');
+      String numString = operandString.substring(underIndex + 1, fracIndex);
+      String denomString = operandString.substring(fracIndex + 1);
+      num = Integer.parseInt(numString);
+      denom = Integer.parseInt(denomString);
+      System.out.println("num is: " + numString);
+      System.out.println("denom is: " + denomString);
+
+      removeDoubleNeg();
    }
 
-   public static String parseSecOperand(String input){
-      Scanner parser = new Scanner(input);
-      String operator = "";
-
-      return operator;
+   public static void removeDoubleNeg(){
+      if(num < 0 && denom < 0){
+         num = Math.abs(num);
+         denom = Math.abs(denom);
+      } else if(num > 0 && denom < 0){
+         num = num * -1;
+         denom = Math.abs(denom);
+      }
    }
 
 }
