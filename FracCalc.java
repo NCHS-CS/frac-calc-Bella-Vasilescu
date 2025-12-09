@@ -92,10 +92,21 @@ public class FracCalc {
       String operator = parser.next();
       String operand2 = parser.next(); 
 
+      parseOperand(operand1);
+
+      int op1Whole = whole;
+      int op1Num = num;
+      int op1Den = denom;
+
       parseOperand(operand2);
 
+      int op2Whole = whole;
+      int op2Num = num;
+      int op2Den = denom;
+
+
       // This is good:
-      String parsedExpression = "Op:" + operator + " Whole:" + whole  + " Num:" + num + " Den:" + denom;
+      String parsedExpression = "Op:" + operator + " Whole:" + op2Whole  + " Num:" + op2Num + " Den:" + op2Den;
       return parsedExpression;
 
    }
@@ -111,7 +122,6 @@ public class FracCalc {
       return help;
    }
 
-   public static int operand1 = 0;
    public static int whole = 0;
    public static int num = 0;
    public static int denom = 0;
