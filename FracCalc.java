@@ -81,12 +81,6 @@ public class FracCalc {
    //        2 1/8
    //        2 1/4
    public static String processExpression(String input) {
-      
-      //Use HELPER METHODS (need 3-4)
-      // parse operator
-      // parse second Operand
-      // parse num
-      // parse denom
       Scanner parser = new Scanner(input);
       String operand1 = parser.next();
       String operator = parser.next();
@@ -102,13 +96,87 @@ public class FracCalc {
 
       int op2Whole = whole;
       int op2Num = num;
-      int op2Den = denom;
+      int op2Den = denom;    //12 lines
 
 
-      // This is good:
-      String parsedExpression = "Op:" + operator + " Whole:" + op2Whole  + " Num:" + op2Num + " Den:" + op2Den;
-      return parsedExpression;
+      // w + w
+      // w + mix
+      // w + frac
+      // mix + frac
+      // mix + mix
+      // frac + frac
 
+
+      // To convert to improper frac:
+      // check if num = 0 --> means whole number
+      // then do whole / den
+      // else follow:
+
+      int improperNumOp1;
+      int improperNumOp2;
+
+      if(op1Num == 0){
+         improperNumOp1 = op1Whole;
+      } else{
+         improperNumOp1 = op1Whole * op1Den + op1Num;
+      }
+
+      if(op2Num == 0){
+         improperNumOp2 = op2Whole;
+      } else{
+         improperNumOp2 = op2Whole * op2Den + op2Num;
+      }
+
+      System.out.println("improperNumOp1: " + improperNumOp1); // TO DELETE
+      System.out.println("improperNumOp2: " + improperNumOp2); // TO DELETE
+
+      
+      int improperDen = op1Den * op2Den;
+      System.out.println("improperDen: " + improperDen); // TO DELETE
+
+
+
+      improperNumOp1 *= op2Den;
+      improperNumOp2 *= op1Den;
+
+      System.out.println("improperNumOp1: " + improperNumOp1); // TO DELETE
+      System.out.println("improperNumOp2: " + improperNumOp2); // TO DELETE
+
+      int improperNumResult = improperNumOp1 + improperNumOp2;
+
+      System.out.println("improperNumResult: " + improperNumResult); // TO DELETE
+      
+
+      String result = "";
+      if(improperDen == 1){
+         result = improperNumResult + "";
+      } else{
+         result = improperNumResult + "/" + improperDen;
+      
+
+      int gcd = GCD(improperNumResult, improperDen);
+
+      //Reduced fraction
+      improperNumResult /= gcd;
+      improperDen /= gcd;
+      
+      int newNum = improperNumResult;
+      int newWhole = 0;
+      while(newNum >= improperDen){
+         newWhole++;
+         newNum -= improperDen;
+      }
+
+      if(newWhole == 0){
+         result = newNum + "/" + improperDen;
+      } else{
+         result = newWhole + " " + newNum + "/" + improperDen;
+      }
+      
+      }
+      System.out.println("result: " + result); // TO DELETE
+
+      return result;
    }
    
    // Returns a string that is helpful to the user about how
@@ -165,6 +233,68 @@ public class FracCalc {
       }
    }
 
-   
+   public static void performOperation(String operator){
+
+
+
+
+
+      if(operator.equals("+")){
+         //addition
+         //performAddition();
+
+         
+
+         /*int op1Whole = whole;
+      int op1Num = num;
+      int op1Den = denom;
+
+      parseOperand(operand2);
+
+      int op2Whole = whole;
+      int op2Num = num;
+      int op2Den = denom; */
+      } else if(operator.equals("-")){
+         //subtract
+         //performSubtraction();
+      } else if(operator.equals("*")){
+         //multiply
+         //performMultiplication();
+      } else{
+         //divide
+         //performDivision();
+      }
+   }
+
+   public static void performAddition(){
+      // convert fractions to improper 
+      //determine if the denoms are the same
+      // if not, correct using :
+      // add the numerators
+      //
+      // return* num and denom
+      // reasemble in proccessExpression?
+   }
+
+   public static int GCD(int a, int b){ 
+      //Uses Euclid’s Division Algorithm
+      if(a < b){ //Switches to make a the larger value for method
+         int temp = a;
+         a = b;
+         b = temp;
+      }
+      int gcd = 0;
+      int remainder = a % b;
+      while(remainder != 0){
+         a = b;
+         b = remainder;
+         gcd = b;
+         remainder = a % b;
+      }
+      
+      return gcd;
+   }
+
+   //Simplify method
 }
 
