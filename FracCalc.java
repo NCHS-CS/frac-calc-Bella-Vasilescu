@@ -117,30 +117,34 @@ public class FracCalc {
 
       if(op1Num == 0){
          improperNumOp1 = op1Whole;
+      } else if(op1Whole < 0){
+         improperNumOp1 = op1Whole * op1Den - op1Num;
       } else{
          improperNumOp1 = op1Whole * op1Den + op1Num;
       }
 
       if(op2Num == 0){
          improperNumOp2 = op2Whole;
+      } else if(op2Whole < 0){
+         improperNumOp2 = op2Whole * op2Den - op2Num;
       } else{
          improperNumOp2 = op2Whole * op2Den + op2Num;
       }
 
-      System.out.println("improperNumOp1: " + improperNumOp1); // TO DELETE
-      System.out.println("improperNumOp2: " + improperNumOp2); // TO DELETE
+      System.out.println("Conversion improperNumOp1: " + improperNumOp1); // TO DELETE
+      System.out.println("Conversion improperNumOp2: " + improperNumOp2); // TO DELETE
 
       
       int improperDen = op1Den * op2Den;
-      System.out.println("improperDen: " + improperDen); // TO DELETE
+      System.out.println("New improperDen: " + improperDen); // TO DELETE
 
 
 
       improperNumOp1 *= op2Den;
       improperNumOp2 *= op1Den;
 
-      System.out.println("improperNumOp1: " + improperNumOp1); // TO DELETE
-      System.out.println("improperNumOp2: " + improperNumOp2); // TO DELETE
+      System.out.println("New improperNumOp1: " + improperNumOp1); // TO DELETE
+      System.out.println("New improperNumOp2: " + improperNumOp2); // TO DELETE
 
       int improperNumResult = improperNumOp1 + improperNumOp2;
 
@@ -152,13 +156,15 @@ public class FracCalc {
          result = improperNumResult + "";
       } else{
          result = improperNumResult + "/" + improperDen;
-      
 
       int gcd = GCD(improperNumResult, improperDen);
+      System.out.println("gcd: " + gcd); // TO DELETE
 
       //Reduced fraction
       improperNumResult /= gcd;
       improperDen /= gcd;
+      System.out.println("After gcd improperNumResult: " + improperNumResult); // TO DELETE
+      System.out.println("After gcd improperDen: " + improperDen); // TO DELETE
       
       int newNum = improperNumResult;
       int newWhole = 0;
@@ -166,12 +172,28 @@ public class FracCalc {
          newWhole++;
          newNum -= improperDen;
       }
+      System.out.println("the whole number: " + newWhole); // TO DELETE
+      System.out.println("the newNum: " + newNum); // TO DELETE
 
-      if(newWhole == 0){
-         result = newNum + "/" + improperDen;
+      if(improperDen == 1){
+         if(newWhole == 0 ){
+            result = newNum + "";
+         } else if(newNum == 0){
+            result = newWhole + "";
+         } else {
+            int sum = newWhole + newNum;
+            result = sum + "";
+         }
       } else{
-         result = newWhole + " " + newNum + "/" + improperDen;
+         if(newWhole == 0 ){
+            result = newNum + "/" + improperDen;
+         } else if(newNum == 0){
+            result = newWhole + "";
+         } else {
+            result = newWhole + " " + newNum + "/" + improperDen;
+         }
       }
+      
       
       }
       System.out.println("result: " + result); // TO DELETE
@@ -278,12 +300,15 @@ public class FracCalc {
 
    public static int GCD(int a, int b){ 
       //Uses Euclid’s Division Algorithm
+      a = Math.abs(a);
+      b = Math.abs(b);
       if(a < b){ //Switches to make a the larger value for method
          int temp = a;
          a = b;
          b = temp;
       }
-      int gcd = 0;
+
+      int gcd = b;
       int remainder = a % b;
       while(remainder != 0){
          a = b;
