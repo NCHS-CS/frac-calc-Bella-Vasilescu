@@ -86,6 +86,8 @@ public class FracCalc {
       String operator = parser.next();
       String operand2 = parser.next(); 
 
+      // parser.close(); to remove warning
+
       parseOperand(operand1);
 
       int op1Whole = whole;
@@ -98,58 +100,20 @@ public class FracCalc {
       int op2Num = num;
       int op2Den = denom;    //12 lines
 
-
-      // w + w
-      // w + mix
-      // w + frac
-      // mix + frac
-      // mix + mix
-      // frac + frac
-
-
       // To convert to improper frac:
       // check if num = 0 --> means whole number
       // then do whole / den
-      // else follow:
-
-      int improperNumOp1;
-      int improperNumOp2;
-
-      if(op1Num == 0){
-         improperNumOp1 = op1Whole;
-      } else if(op1Whole < 0){
-         improperNumOp1 = op1Whole * op1Den - op1Num;
-      } else{
-         improperNumOp1 = op1Whole * op1Den + op1Num;
-      }
-
-      if(op2Num == 0){
-         improperNumOp2 = op2Whole;
-      } else if(op2Whole < 0){
-         improperNumOp2 = op2Whole * op2Den - op2Num;
-      } else{
-         improperNumOp2 = op2Whole * op2Den + op2Num;
-      }
-
-      System.out.println("Conversion improperNumOp1: " + improperNumOp1); // TO DELETE
-      System.out.println("Conversion improperNumOp2: " + improperNumOp2); // TO DELETE
 
       
-      int improperDen = op1Den * op2Den;
-      System.out.println("New improperDen: " + improperDen); // TO DELETE
+      int improperDen = op1Den * op2Den; // Get common denom
 
-
-
+      int improperNumOp1 = improperNumerator(op1Num,op1Den, op1Whole);;
+      int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);;
+      
       improperNumOp1 *= op2Den;
       improperNumOp2 *= op1Den;
 
-      System.out.println("New improperNumOp1: " + improperNumOp1); // TO DELETE
-      System.out.println("New improperNumOp2: " + improperNumOp2); // TO DELETE
-
-      int improperNumResult = improperNumOp1 + improperNumOp2;
-
-      System.out.println("improperNumResult: " + improperNumResult); // TO DELETE
-      
+      int improperNumResult = improperNumOp1 + improperNumOp2; // Addition ONLY
 
       String result = "";
       if(improperDen == 1){
@@ -158,22 +122,16 @@ public class FracCalc {
          result = improperNumResult + "/" + improperDen;
 
       int gcd = GCD(improperNumResult, improperDen);
-      System.out.println("gcd: " + gcd); // TO DELETE
-
+     
       //Reduced fraction
-      improperNumResult /= gcd;
+      int newNum = improperNumResult / gcd;
       improperDen /= gcd;
-      System.out.println("After gcd improperNumResult: " + improperNumResult); // TO DELETE
-      System.out.println("After gcd improperDen: " + improperDen); // TO DELETE
       
-      int newNum = improperNumResult;
       int newWhole = 0;
       while(newNum >= improperDen){
          newWhole++;
          newNum -= improperDen;
       }
-      System.out.println("the whole number: " + newWhole); // TO DELETE
-      System.out.println("the newNum: " + newNum); // TO DELETE
 
       if(improperDen == 1){
          if(newWhole == 0 ){
@@ -196,8 +154,6 @@ public class FracCalc {
       
       
       }
-      System.out.println("result: " + result); // TO DELETE
-
       return result;
    }
    
@@ -320,6 +276,19 @@ public class FracCalc {
       return gcd;
    }
 
-   //Simplify method
+   
+   public static int improperNumerator(int operatorNum, int operatorDen, int operatorWhole){
+      int improperNum;
+      if(operatorNum == 0){
+         improperNum = operatorWhole;
+      } else if(operatorWhole < 0){
+         improperNum = operatorWhole * operatorDen - operatorNum;
+      } else{
+         improperNum = operatorWhole * operatorDen + operatorNum;
+      }
+      
+      return improperNum;
+   }
+   
 }
 
