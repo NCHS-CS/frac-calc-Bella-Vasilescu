@@ -86,7 +86,7 @@ public class FracCalc {
       String operator = parser.next();
       String operand2 = parser.next(); 
 
-      // parser.close(); to remove warning
+      parser.close(); // Closes parser to remove warning
 
       parseOperand(operand1);
 
@@ -100,60 +100,17 @@ public class FracCalc {
       int op2Num = num;
       int op2Den = denom;    //12 lines
 
-      // To convert to improper frac:
-      // check if num = 0 --> means whole number
-      // then do whole / den
-
-      
+      int improperNumOp1 = improperNumerator(op1Num,op1Den, op1Whole);; // Convert op1 to improper fraction
+      int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);; // Convert op2 to improper fraction
       int improperDen = op1Den * op2Den; // Get common denom
-
-      int improperNumOp1 = improperNumerator(op1Num,op1Den, op1Whole);;
-      int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);;
-      
-      improperNumOp1 *= op2Den;
-      improperNumOp2 *= op1Den;
+      improperNumOp1 *= op2Den; // change num to match common denom
+      improperNumOp2 *= op1Den; // change num to match common denom
 
       int improperNumResult = improperNumOp1 + improperNumOp2; // Addition ONLY
-
+      // DIVISION is like MULTPLYING by the RECIPROCAL
+      // 1/2 / 1/4  = 1/2 * 4/1 = 4/2 = 2 etc.
       String result = "";
-      if(improperDen == 1){
-         result = improperNumResult + "";
-      } else{
-         result = improperNumResult + "/" + improperDen;
-
-      int gcd = GCD(improperNumResult, improperDen);
-     
-      //Reduced fraction
-      int newNum = improperNumResult / gcd;
-      improperDen /= gcd;
-      
-      int newWhole = 0;
-      while(newNum >= improperDen){
-         newWhole++;
-         newNum -= improperDen;
-      }
-
-      if(improperDen == 1){
-         if(newWhole == 0 ){
-            result = newNum + "";
-         } else if(newNum == 0){
-            result = newWhole + "";
-         } else {
-            int sum = newWhole + newNum;
-            result = sum + "";
-         }
-      } else{
-         if(newWhole == 0 ){
-            result = newNum + "/" + improperDen;
-         } else if(newNum == 0){
-            result = newWhole + "";
-         } else {
-            result = newWhole + " " + newNum + "/" + improperDen;
-         }
-      }
-      
-      
-      }
+      result = reduceFraction(improperNumResult, improperDen);
       return result;
    }
    
@@ -212,17 +169,9 @@ public class FracCalc {
    }
 
    public static void performOperation(String operator){
-
-
-
-
-
       if(operator.equals("+")){
          //addition
          //performAddition();
-
-         
-
          /*int op1Whole = whole;
       int op1Num = num;
       int op1Den = denom;
@@ -290,5 +239,46 @@ public class FracCalc {
       return improperNum;
    }
    
-}
+   
+   public static String reduceFraction(int improperNumResult, int improperDen){
+      String result = "";
+      if(improperDen == 1){
+         result = improperNumResult + ""; // If only whole nums?
+      } else{
+         result = improperNumResult + "/" + improperDen; //If fracttions?
 
+         int gcd = GCD(improperNumResult, improperDen); // Get Greastest Common Denominator/Divisor
+     
+         int newNum = improperNumResult / gcd; //Reduce the result fraction
+         improperDen /= gcd;
+      
+         int newWhole = 0;
+         while(newNum >= improperDen){
+         newWhole++;
+         newNum -= improperDen;
+      }
+
+      if(improperDen == 1){
+         if(newWhole == 0 ){
+            result = newNum + "";
+         } else if(newNum == 0){
+            result = newWhole + "";
+         } else {
+            int sum = newWhole + newNum;
+            result = sum + "";
+         }
+      } else{
+         if(newWhole == 0 ){
+            result = newNum + "/" + improperDen;
+         } else if(newNum == 0){
+            result = newWhole + "";
+         } else {
+            result = newWhole + " " + newNum + "/" + improperDen;
+         }
+      }
+   }
+
+   return result;
+
+   }
+}
