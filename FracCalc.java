@@ -81,24 +81,22 @@ public class FracCalc {
    //        2 1/8
    //        2 1/4
    public static String processExpression(String input) {
-      Scanner parser = new Scanner(input);
-      String operand1 = parser.next();
+      Scanner parser = new Scanner(input); // Use Scanner to parse the 3 tokens of
+      String operand1 = parser.next();     // operands 1 and 2 and the operator
       String operator = parser.next();
       String operand2 = parser.next(); 
 
       parser.close(); // Closes parser to remove warning
 
-      parseOperand(operand1);
-
-      int op1Whole = whole;
+      parseOperand(operand1); //Split the first operand into the following:
+      int op1Whole = whole;   
       int op1Num = num;
       int op1Den = denom;
 
-      parseOperand(operand2);
-
+      parseOperand(operand2); //Split the second operand into the following:
       int op2Whole = whole;
       int op2Num = num;
-      int op2Den = denom;    //12 lines
+      int op2Den = denom;
 
       int improperNumOp1 = improperNumerator(op1Num,op1Den, op1Whole);; // Convert op1 to improper fraction
       int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);; // Convert op2 to improper fraction
@@ -106,9 +104,9 @@ public class FracCalc {
       improperNumOp1 *= op2Den; // change num to match common denom
       improperNumOp2 *= op1Den; // change num to match common denom
 
-      int improperNumResult = improperNumOp1 + improperNumOp2; // Addition ONLY
-      // DIVISION is like MULTPLYING by the RECIPROCAL
-      // 1/2 / 1/4  = 1/2 * 4/1 = 4/2 = 2 etc.
+      int improperNumResult;
+      // Operation call here
+
       String result = "";
       result = reduceFraction(improperNumResult, improperDen);
       return result;
@@ -125,7 +123,7 @@ public class FracCalc {
       return help;
    }
 
-   public static int whole = 0;
+   public static int whole = 0; // Placed here for easier understanding of parseOperand
    public static int num = 0;
    public static int denom = 0;
 
@@ -168,39 +166,30 @@ public class FracCalc {
       }
    }
 
-   public static void performOperation(String operator){
+   public static int performOperation(String operator, int improperNumOp1, int improperNumOp2, int improperDen){
       if(operator.equals("+")){
-         //addition
-         //performAddition();
-         /*int op1Whole = whole;
-      int op1Num = num;
-      int op1Den = denom;
-
-      parseOperand(operand2);
-
-      int op2Whole = whole;
-      int op2Num = num;
-      int op2Den = denom; */
+         int improperNumResult = improperNumOp1 + improperNumOp2;
+         return improperNumResult;
       } else if(operator.equals("-")){
-         //subtract
-         //performSubtraction();
+         int improperNumResult = improperNumOp1 - improperNumOp2;
+         return improperNumResult;
       } else if(operator.equals("*")){
-         //multiply
-         //performMultiplication();
+         
+      //  improperNumResult = improperNumOp1 * improperNumOp2;
+      //              AND
+      //  improperDenResult = improperDen * improperDen;
+
+      // DIVISION is like MULTPLYING by the RECIPROCAL
+      // 1/2 / 1/4  = 1/2 * 4/1 = 4/2 = 2 etc.
+      // improperNumResult = improperNumOp1 * improperDen;
+      //             AND
+      // improperDenResult = improperDen * improperNumOp2;
+         return improperNumResult;
       } else{
          //divide
          //performDivision();
+         return improperNumResult;
       }
-   }
-
-   public static void performAddition(){
-      // convert fractions to improper 
-      //determine if the denoms are the same
-      // if not, correct using :
-      // add the numerators
-      //
-      // return* num and denom
-      // reasemble in proccessExpression?
    }
 
    public static int GCD(int a, int b){ 
