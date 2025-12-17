@@ -101,11 +101,22 @@ public class FracCalc {
       int improperNumOp1 = improperNumerator(op1Num,op1Den, op1Whole);; // Convert op1 to improper fraction
       int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);; // Convert op2 to improper fraction
       int improperDen = op1Den * op2Den; // Get common denom
+      
+      System.out.println("improperNumOp1: " + improperNumOp1); //DELETE LATER!
+      System.out.println("improperNumOp2: " + improperNumOp2); //DELETE LATER!
+      
       improperNumOp1 *= op2Den; // change num to match common denom
       improperNumOp2 *= op1Den; // change num to match common denom
 
-      int improperNumResult;
-      int improperDenResult = improperDen * improperDen; // check usage
+      System.out.println("improperDen: " + improperDen); //DELETE LATER!
+      System.out.println("improperNumOp1: " + improperNumOp1); //DELETE LATER!
+      System.out.println("improperNumOp2: " + improperNumOp2); //DELETE LATER!
+
+      int improperNumResult = 0;
+      int improperDenResult = 0; // check usage
+      
+      System.out.println("operator: " + operator); //DELETE LATER!
+
       // Operation call here
       if(operator.equals("*")){
          improperDenResult = improperDen * improperDen;
@@ -113,8 +124,13 @@ public class FracCalc {
          improperDenResult = improperDen * improperNumOp2;
       }
 
-      improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Perform operation
+      System.out.println("improperDen: " + improperDen); //DELETE LATER!
 
+      improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Perform operation
+      System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
+
+      
+      
       String result = "";
       result = reduceFraction(improperNumResult, improperDen); // Reduce result
       return result;
@@ -177,16 +193,24 @@ public class FracCalc {
    public static int performOperation(String operator, int improperNumOp1, int improperNumOp2, int improperDen){
       if(operator.equals("+")){
          int improperNumResult = improperNumOp1 + improperNumOp2;
+         System.out.println("performs addition"); //DELETE LATER!
+         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       } else if(operator.equals("-")){
          int improperNumResult = improperNumOp1 - improperNumOp2;
+         System.out.println("performs subtraction"); //DELETE LATER!
+         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       } else if(operator.equals("*")){
          int improperNumResult = improperNumOp1 * improperNumOp2;
+         System.out.println("performs multiplication"); //DELETE LATER!
+         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       } else{
          // DIVISION is like MULTPLYING by the RECIPROCAL
          int improperNumResult = improperNumOp1 * improperDen;
+         System.out.println("performs division"); //DELETE LATER!
+         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       }
    }
@@ -202,6 +226,7 @@ public class FracCalc {
       }
 
       int gcd = b;
+      //System.out.println("gcd: " + gcd); //DELETE LATER!
       int remainder = a % b;
       while(remainder != 0){
          a = b;
@@ -209,7 +234,7 @@ public class FracCalc {
          gcd = b;
          remainder = a % b;
       }
-      
+      //System.out.println("gcd: " + gcd); //DELETE LATER!
       return gcd;
    }
 
@@ -236,9 +261,14 @@ public class FracCalc {
          result = improperNumResult + "/" + improperDen; //If fracttions?
 
          int gcd = GCD(improperNumResult, improperDen); // Get Greastest Common Denominator/Divisor
-     
-         int newNum = improperNumResult / gcd; //Reduce the result fraction
-         improperDen /= gcd;
+         
+         int newNum = improperNumResult;
+
+         if(gcd != 0){
+            newNum = improperNumResult / gcd; //Reduce the result fraction
+            improperDen /= gcd;
+         }
+         
       
          int newWhole = 0;
          while(newNum >= improperDen){
