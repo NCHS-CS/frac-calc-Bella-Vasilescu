@@ -105,10 +105,18 @@ public class FracCalc {
       improperNumOp2 *= op1Den; // change num to match common denom
 
       int improperNumResult;
+      int improperDenResult = improperDen * improperDen; // check usage
       // Operation call here
+      if(operator.equals("*")){
+         improperDenResult = improperDen * improperDen;
+      } else if(operator.equals("/")){
+         improperDenResult = improperDen * improperNumOp2;
+      }
+
+      improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Perform operation
 
       String result = "";
-      result = reduceFraction(improperNumResult, improperDen);
+      result = reduceFraction(improperNumResult, improperDen); // Reduce result
       return result;
    }
    
@@ -174,20 +182,11 @@ public class FracCalc {
          int improperNumResult = improperNumOp1 - improperNumOp2;
          return improperNumResult;
       } else if(operator.equals("*")){
-         
-      //  improperNumResult = improperNumOp1 * improperNumOp2;
-      //              AND
-      //  improperDenResult = improperDen * improperDen;
-
-      // DIVISION is like MULTPLYING by the RECIPROCAL
-      // 1/2 / 1/4  = 1/2 * 4/1 = 4/2 = 2 etc.
-      // improperNumResult = improperNumOp1 * improperDen;
-      //             AND
-      // improperDenResult = improperDen * improperNumOp2;
+         int improperNumResult = improperNumOp1 * improperNumOp2;
          return improperNumResult;
       } else{
-         //divide
-         //performDivision();
+         // DIVISION is like MULTPLYING by the RECIPROCAL
+         int improperNumResult = improperNumOp1 * improperDen;
          return improperNumResult;
       }
    }
