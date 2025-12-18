@@ -102,35 +102,21 @@ public class FracCalc {
       int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);; // Convert op2 to improper fraction
       int improperDen = op1Den * op2Den; // Get common denom
       
-      System.out.println("improperNumOp1: " + improperNumOp1); //DELETE LATER!
-      System.out.println("improperNumOp2: " + improperNumOp2); //DELETE LATER!
-      
       improperNumOp1 *= op2Den; // change num to match common denom
       improperNumOp2 *= op1Den; // change num to match common denom
 
-      System.out.println("improperDen: " + improperDen); //DELETE LATER!
-      System.out.println("improperNumOp1: " + improperNumOp1); //DELETE LATER!
-      System.out.println("improperNumOp2: " + improperNumOp2); //DELETE LATER!
-
       int improperNumResult = 0;
-      int improperDenResult = 0; // check usage
-      
-      System.out.println("operator: " + operator); //DELETE LATER!
-
-      // Operation call here
-      if(operator.equals("*")){
-         improperDenResult = improperDen * improperDen;
-      } else if(operator.equals("/")){
-         improperDenResult = improperDen * improperNumOp2;
-      }
-
-      System.out.println("improperDen: " + improperDen); //DELETE LATER!
 
       improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Perform operation
       System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
 
-      
-      
+      // if multiplication/ division
+      if(operator.equals("*")){
+         improperDen *= improperDen;
+      } else if(operator.equals("/")){
+         improperDen *= improperNumOp2;
+      }
+
       String result = "";
       result = reduceFraction(improperNumResult, improperDen); // Reduce result
       return result;
@@ -219,23 +205,27 @@ public class FracCalc {
       //Uses Euclid’s Division Algorithm
       a = Math.abs(a);
       b = Math.abs(b);
-      if(a < b){ //Switches to make a the larger value for method
+      if(a < b){ //Switches to make 'a' the larger value for method
          int temp = a;
          a = b;
          b = temp;
       }
 
-      int gcd = b;
-      //System.out.println("gcd: " + gcd); //DELETE LATER!
-      int remainder = a % b;
-      while(remainder != 0){
-         a = b;
-         b = remainder;
-         gcd = b;
-         remainder = a % b;
+      int gcd = b; // assumes b is gcd
+
+      if(gcd == 0){
+         return 1; //MEANS NO COMMON DIVISORS, SO GCD CANT BE USED
+      } else{
+         int remainder = a % b;
+         while(remainder != 0){
+            a = b;
+            b = remainder;
+            gcd = b;
+            remainder = a % b;
+         }
+         System.out.println("gcd: " + gcd); //DELETE LATER!
+         return gcd;
       }
-      //System.out.println("gcd: " + gcd); //DELETE LATER!
-      return gcd;
    }
 
    
@@ -243,7 +233,8 @@ public class FracCalc {
       int improperNum;
       if(operatorNum == 0){
          improperNum = operatorWhole;
-      } else if(operatorWhole < 0){
+      } 
+      if(operatorWhole < 0){
          improperNum = operatorWhole * operatorDen - operatorNum;
       } else{
          improperNum = operatorWhole * operatorDen + operatorNum;
@@ -256,47 +247,66 @@ public class FracCalc {
    public static String reduceFraction(int improperNumResult, int improperDen){
       String result = "";
       if(improperDen == 1){
-         result = improperNumResult + ""; // If only whole nums?
+         result = improperNumResult + ""; // If only whole nums
       } else{
-         result = improperNumResult + "/" + improperDen; //If fracttions?
+         if(improperNumResult == 0){
+            result = 0 + "";
+         } else{
+           //result = improperNumResult + "/" + improperDen; //If fractions?
 
          int gcd = GCD(improperNumResult, improperDen); // Get Greastest Common Denominator/Divisor
          
-         int newNum = improperNumResult;
+         improperNumResult /= gcd; //Simplify the result fraction
+         improperDen /= gcd;
+         
+         if(improperNumResult < 0 && improperDen < 0 ){
+            improperNumResult = Math.abs(improperNumResult); //CHECK FUNCTIONALITY!!!!
+            improperDen = Math.abs(improperDen);
+         }
 
-         if(gcd != 0){
-            newNum = improperNumResult / gcd; //Reduce the result fraction
-            improperDen /= gcd;
+         int newWhole = 0;
+         while(improperNumResult >= improperDen){
+            newWhole++;
+            improperNumResult -= improperDen;  // Check order of these
+         }
+
+         if(newWhole == 0 ){
+            result = improperNumResult + "/" + improperDen;
+            System.out.println("result:" + result); // DELETE
+         } else if(improperNumResult == 0){
+            result = newWhole + "";
+            System.out.println("result:" + result); // DELETE
+         } else {
+            result = newWhole + " " + improperNumResult + "/" + improperDen;
+            System.out.println("result:" + result); // DELETE
          }
          
-      
-         int newWhole = 0;
-         while(newNum >= improperDen){
-         newWhole++;
-         newNum -= improperDen;
-      }
-
-      if(improperDen == 1){
-         if(newWhole == 0 ){
-            result = newNum + "";
-         } else if(newNum == 0){
-            result = newWhole + "";
-         } else {
-            int sum = newWhole + newNum;
-            result = sum + "";
-         }
-      } else{
-         if(newWhole == 0 ){
-            result = newNum + "/" + improperDen;
-         } else if(newNum == 0){
-            result = newWhole + "";
-         } else {
-            result = newWhole + " " + newNum + "/" + improperDen;
-         }
       }
    }
 
+   System.out.println("result final:" + result);
    return result;
 
    }
+
+   /*
+   public static String mixedFraction(){
+   
+      // ex. use 9/2
+      // 9-2 = 7   --> 1 7/2
+      // 7-2 = 5   --> 1+1 = 2 5/2
+      // 5-2 = 3   --> 1+1+1 = 3 3/2
+      // 3-2 = 1   --> 1+1+1+1 = 4 1/2
+      // 1 not greater than 2, so end loop
+      // mixed = newWhole" "Num"/"Den
+
+      int whole = 0;
+         while(num >= den){
+            whole++;
+            num -= den;
+         }
+   
+   }
+   
+   */
 }
