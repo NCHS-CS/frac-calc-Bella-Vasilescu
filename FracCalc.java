@@ -101,6 +101,9 @@ public class FracCalc {
       int improperNumOp1 = improperNumerator(op1Num,op1Den, op1Whole);; // Convert op1 to improper fraction
       int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);; // Convert op2 to improper fraction
       int improperDen = op1Den * op2Den; // Get common denom
+      System.out.println(improperDen);
+      System.out.println(op1Den);
+      System.out.println(op1Num);
       
       improperNumOp1 *= op2Den; // change num to match common denom
       improperNumOp2 *= op1Den; // change num to match common denom
@@ -258,6 +261,7 @@ public class FracCalc {
          improperNumResult /= gcd; //Simplify the result fraction
          improperDen /= gcd;
          int newWhole = 0;
+         System.out.println(improperNumResult); //DELETE
 
          if(improperNumResult < 0 && improperDen < 0){
             improperNumResult = Math.abs(improperNumResult); //CHECK FUNCTIONALITY!!!!
@@ -279,6 +283,8 @@ public class FracCalc {
                improperNumResult -= improperDen;  // Check order of these
             }
          }
+
+         System.out.println(improperNumResult); //DELETE
 
          if(newWhole == 0 ){
             result = improperNumResult + "/" + improperDen;
