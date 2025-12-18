@@ -108,7 +108,6 @@ public class FracCalc {
       int improperNumResult = 0;
 
       improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Perform operation
-      System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
 
       // if multiplication/ division
       if(operator.equals("*")){
@@ -258,16 +257,27 @@ public class FracCalc {
          
          improperNumResult /= gcd; //Simplify the result fraction
          improperDen /= gcd;
-         
-         if(improperNumResult < 0 && improperDen < 0 ){
+         int newWhole = 0;
+
+         if(improperNumResult < 0 && improperDen < 0){
             improperNumResult = Math.abs(improperNumResult); //CHECK FUNCTIONALITY!!!!
             improperDen = Math.abs(improperDen);
-         }
-
-         int newWhole = 0;
-         while(improperNumResult >= improperDen){
-            newWhole++;
-            improperNumResult -= improperDen;  // Check order of these
+            while(improperNumResult >= improperDen){
+               newWhole++;
+               improperNumResult -= improperDen;  // Check order of these
+            }
+         } else if(improperNumResult < 0){
+            improperNumResult = Math.abs(improperNumResult);
+            while(improperNumResult >= improperDen){
+               newWhole++;
+               improperNumResult -= improperDen;  // Check order of these
+            }
+            newWhole *= -1;
+         } else{
+            while(improperNumResult >= improperDen){
+               newWhole++;
+               improperNumResult -= improperDen;  // Check order of these
+            }
          }
 
          if(newWhole == 0 ){
