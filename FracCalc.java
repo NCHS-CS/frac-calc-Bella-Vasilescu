@@ -181,24 +181,24 @@ public class FracCalc {
    public static int performOperation(String operator, int improperNumOp1, int improperNumOp2, int improperDen){
       if(operator.equals("+")){
          int improperNumResult = improperNumOp1 + improperNumOp2;
-         System.out.println("performs addition"); //DELETE LATER!
-         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
+         //System.out.println("performs addition"); //DELETE LATER!
+         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       } else if(operator.equals("-")){
          int improperNumResult = improperNumOp1 - improperNumOp2;
-         System.out.println("performs subtraction"); //DELETE LATER!
-         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
+         //System.out.println("performs subtraction"); //DELETE LATER!
+         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       } else if(operator.equals("*")){
          int improperNumResult = improperNumOp1 * improperNumOp2;
-         System.out.println("performs multiplication"); //DELETE LATER!
-         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
+         //System.out.println("performs multiplication"); //DELETE LATER!
+         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       } else{
          // DIVISION is like MULTPLYING by the RECIPROCAL
          int improperNumResult = improperNumOp1 * improperDen;
-         System.out.println("performs division"); //DELETE LATER!
-         System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
+         //System.out.println("performs division"); //DELETE LATER!
+         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
          return improperNumResult;
       }
    }
@@ -225,7 +225,7 @@ public class FracCalc {
             gcd = b;
             remainder = a % b;
          }
-         System.out.println("gcd: " + gcd); //DELETE LATER!
+         //System.out.println("gcd: " + gcd); //DELETE LATER!
          return gcd;
       }
    }
@@ -261,8 +261,10 @@ public class FracCalc {
          improperNumResult /= gcd; //Simplify the result fraction
          improperDen /= gcd;
          int newWhole = 0;
-         System.out.println(improperNumResult); //DELETE
+         //System.out.println(improperNumResult); //DELETE
 
+         System.out.println("improperNumResult: " + improperNumResult); //DELETE
+         System.out.println("improperDen: " + improperDen); //DELETE
          if(improperNumResult < 0 && improperDen < 0){
             improperNumResult = Math.abs(improperNumResult); //CHECK FUNCTIONALITY!!!!
             improperDen = Math.abs(improperDen);
@@ -276,7 +278,21 @@ public class FracCalc {
                newWhole++;
                improperNumResult -= improperDen;  // Check order of these
             }
-            newWhole *= -1;
+            
+            if(newWhole != 0){
+               newWhole *= -1;
+            } else{
+               improperNumResult *= -1;
+            }
+         } else if(improperDen < 0){
+            improperNumResult = Math.abs(improperNumResult); //CHECK FUNCTIONALITY!!!!
+            improperDen = Math.abs(improperDen);
+            while(improperNumResult >= improperDen){
+               newWhole++;
+               improperNumResult -= improperDen;  // Check order of these
+            }
+            improperNumResult *= -1; //EAEAEEAES
+            System.out.println("improperNumResult post if: " + improperNumResult); //DELETE
          } else{
             while(improperNumResult >= improperDen){
                newWhole++;
@@ -284,17 +300,17 @@ public class FracCalc {
             }
          }
 
-         System.out.println(improperNumResult); //DELETE
+         System.out.println("improperNumResult: " + improperNumResult); //DELETE
 
          if(newWhole == 0 ){
             result = improperNumResult + "/" + improperDen;
-            System.out.println("result:" + result); // DELETE
+            //System.out.println("result:" + result); // DELETE
          } else if(improperNumResult == 0){
             result = newWhole + "";
-            System.out.println("result:" + result); // DELETE
+            //System.out.println("result:" + result); // DELETE
          } else {
             result = newWhole + " " + improperNumResult + "/" + improperDen;
-            System.out.println("result:" + result); // DELETE
+            //System.out.println("result:" + result); // DELETE
          }
          
       }
