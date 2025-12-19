@@ -4,7 +4,11 @@
 
 import java.util.*;
 
-// TODO: Description of what this program does goes here.
+// This program performs arithmetic calculations (+,-,*,/) on whole
+// numbers, fractions, and mixed fractions. The program will parse
+// a user's input, perform an operation, remove double negatives and
+// return the result as a formatted String. For example;
+//       "3/4 + 1/2" returns "1 1/4"
 public class FracCalc {
 
    // It is best if we have only one console object for input
@@ -98,29 +102,25 @@ public class FracCalc {
       int op2Num = num;
       int op2Den = denom;
 
-      int improperNumOp1 = improperNumerator(op1Num,op1Den, op1Whole);; // Convert op1 to improper fraction
-      int improperNumOp2 = improperNumerator(op2Num,op2Den, op2Whole);; // Convert op2 to improper fraction
-      int improperDen = op1Den * op2Den; // Get common denom
-      System.out.println(improperDen);
-      System.out.println(op1Den);
-      System.out.println(op1Num);
+      int improperNumOp1 = convertToImproper(op1Num,op1Den, op1Whole); // Converts operator1 to improper fraction form
+      int improperNumOp2 = convertToImproper(op2Num,op2Den, op2Whole); // Converts operator2 to improper fraction form
+      int improperDen = op1Den * op2Den; // Get the common denom
       
-      improperNumOp1 *= op2Den; // change num to match common denom
-      improperNumOp2 *= op1Den; // change num to match common denom
+      improperNumOp1 *= op2Den; // Convert fraction (num) to match common denom
+      improperNumOp2 *= op1Den; // Convert fraction (num) to match common denom
 
       int improperNumResult = 0;
 
-      improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Perform operation
+      improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Performs specified operation
 
-      // if multiplication/ division
-      if(operator.equals("*")){
-         improperDen *= improperDen;
-      } else if(operator.equals("/")){
-         improperDen *= improperNumOp2;
+      if(operator.equals("*")){         // if operation was multiplication,
+         improperDen *= improperDen;              // square the denominator
+      } else if(operator.equals("/")){  // if operation was division,
+         improperDen *= improperNumOp2;           // multiply with reciprocal
       }
 
       String result = "";
-      result = reduceFraction(improperNumResult, improperDen); // Reduce result
+      result = reduceFraction(improperNumResult, improperDen); // Reduce/Simplify result
       return result;
    }
    
@@ -135,39 +135,47 @@ public class FracCalc {
       return help;
    }
 
-   public static int whole = 0; // Placed here for easier understanding of parseOperand
+   public static int whole = 0; // variables used for parseOperand
    public static int num = 0;
    public static int denom = 0;
 
+   // Method to parse an operand into three components; 
+   // whole, numerator, and denominator
+   // Input: the operand (String)
+   // Return: None
    public static void parseOperand(String operandString){
       
-      //Check for indexes of '_' and "/"
-      int underIndex = operandString.indexOf('_');
+      int underIndex = operandString.indexOf('_'); //Check for indexes of '_' and "/"
       int fracIndex = operandString.indexOf('/');
 
       
-      if(underIndex != -1 && fracIndex != -1){ //If both exist...
-         String wholeString = operandString.substring(0, underIndex);
-         whole = Integer.parseInt(wholeString);
+      if(underIndex != -1 && fracIndex != -1){ //If both characters exist...
+         String wholeString = operandString.substring(0, underIndex); // Parse and assign to global variables
+         whole = Integer.parseInt(wholeString);                                   // Includes whole
          String numString = operandString.substring(underIndex + 1, fracIndex);
          String denomString = operandString.substring(fracIndex + 1);
          num = Integer.parseInt(numString);
          denom = Integer.parseInt(denomString);
       } else if(underIndex == -1 && fracIndex != -1){ //If only '/' exists...
          whole = 0;
-         String numString = operandString.substring(underIndex + 1, fracIndex);
-         String denomString = operandString.substring(fracIndex + 1);
+         String numString = operandString.substring(underIndex + 1, fracIndex); // No whole number
+         String denomString = operandString.substring(fracIndex + 1);           
          num = Integer.parseInt(numString);
          denom = Integer.parseInt(denomString);
       } else { //If none exist...
-         whole = Integer.parseInt(operandString);
+         whole = Integer.parseInt(operandString); // Only a whole number
          num = 0;
          denom = 1;
       }
       
-      removeDoubleNeg();
+      removeDoubleNeg(); // Remove any double negatives (-1/-4)
    }
 
+   // Method to remove any double negatives (-num/-den)
+   // and moves a negative to the num (if num/-den). Uses
+   // global variables whole, num, and den
+   // Input: None
+   // Return: None
    public static void removeDoubleNeg(){
       if(num < 0 && denom < 0){
          num = Math.abs(num);
@@ -178,33 +186,31 @@ public class FracCalc {
       }
    }
 
-   public static int performOperation(String operator, int improperNumOp1, int improperNumOp2, int improperDen){
-      if(operator.equals("+")){
-         int improperNumResult = improperNumOp1 + improperNumOp2;
-         //System.out.println("performs addition"); //DELETE LATER!
-         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
-         return improperNumResult;
+   // Method to perform each operation. First determines the
+   // operator, then performs operation on the nums
+   // Input: operator (String), num1 (int), num2 (int), den (int)
+   // Return: numResult (int)
+   public static int performOperation(String operator, int num1, int num2, int den){
+      if(operator.equals("+")){ // determine which operator to perform
+         int numResult = num1 + num2;    // find new num result
+         return numResult;
       } else if(operator.equals("-")){
-         int improperNumResult = improperNumOp1 - improperNumOp2;
-         //System.out.println("performs subtraction"); //DELETE LATER!
-         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
-         return improperNumResult;
+         int numResult = num1 - num2;
+         return numResult;
       } else if(operator.equals("*")){
-         int improperNumResult = improperNumOp1 * improperNumOp2;
-         //System.out.println("performs multiplication"); //DELETE LATER!
-         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
-         return improperNumResult;
+         int numResult = num1 * num2;
+         return numResult;
       } else{
          // DIVISION is like MULTPLYING by the RECIPROCAL
-         int improperNumResult = improperNumOp1 * improperDen;
-         //System.out.println("performs division"); //DELETE LATER!
-         //System.out.println("improperNumResult: " + improperNumResult); //DELETE LATER!
-         return improperNumResult;
+         int numResult = num1 * den;
+         return numResult;
       }
    }
 
-   public static int GCD(int a, int b){ 
-      //Uses Euclid’s Division Algorithm
+   // Method to find the GCD of 2 numbers
+   // Input: a (int), b (int)
+   // Return: gcd (int)
+   public static int GCD(int a, int b){ //Uses Euclid’s Division Algorithm
       a = Math.abs(a);
       b = Math.abs(b);
       if(a < b){ //Switches to make 'a' the larger value for method
@@ -216,7 +222,7 @@ public class FracCalc {
       int gcd = b; // assumes b is gcd
 
       if(gcd == 0){
-         return 1; //MEANS NO COMMON DIVISORS, SO GCD CANT BE USED
+         return 1; //means no common divisors, so GCD can't be used
       } else{
          int remainder = a % b;
          while(remainder != 0){
@@ -225,120 +231,92 @@ public class FracCalc {
             gcd = b;
             remainder = a % b;
          }
-         //System.out.println("gcd: " + gcd); //DELETE LATER!
          return gcd;
       }
    }
 
-   
-   public static int improperNumerator(int operatorNum, int operatorDen, int operatorWhole){
+   // Method to convert a mixed fraction to an improper fraction's num
+   // only affects the numerator
+   // Input: num (int), den (int), whole (int)
+   // Return: improperNum (int)
+   public static int convertToImproper(int num, int den, int whole){
       int improperNum;
-      if(operatorNum == 0){
-         improperNum = operatorWhole;
+      if(num == 0){
+         improperNum = whole;
       } 
-      if(operatorWhole < 0){
-         improperNum = operatorWhole * operatorDen - operatorNum;
+      if(whole < 0){
+         improperNum = whole * den - num;
       } else{
-         improperNum = operatorWhole * operatorDen + operatorNum;
+         improperNum = whole * den + num;
       }
       
       return improperNum;
    }
    
-   
-   public static String reduceFraction(int improperNumResult, int improperDen){
+   // Method to simplify and reduce an improper fraction
+   // into its mixed form; Also works for cases including
+   // only whole numbers and regular fractions (ex. 1/2)
+   // Input: 
+   // Return: 
+   public static String reduceFraction(int num, int den){
       String result = "";
-      if(improperDen == 1){
-         result = improperNumResult + ""; // If only whole nums
+      if(den == 1){         // If the fraction's den is 1,
+         result = num + ""; // then the num becomes a whole number
       } else{
-         if(improperNumResult == 0){
-            result = 0 + "";
+         if(num == 0){       // If the num is 0,
+            result = 0 + ""; // then the fraction is 0
          } else{
-           //result = improperNumResult + "/" + improperDen; //If fractions?
 
-         int gcd = GCD(improperNumResult, improperDen); // Get Greastest Common Denominator/Divisor
+         int gcd = GCD(num, den); // Get Greastest Common Divisor
          
-         improperNumResult /= gcd; //Simplify the result fraction
-         improperDen /= gcd;
-         int newWhole = 0;
-         //System.out.println(improperNumResult); //DELETE
+         num /= gcd; //Simplify the fraction's num
+         den /= gcd; //Simplify the fraction's num
 
-         System.out.println("improperNumResult: " + improperNumResult); //DELETE
-         System.out.println("improperDen: " + improperDen); //DELETE
-         if(improperNumResult < 0 && improperDen < 0){
-            improperNumResult = Math.abs(improperNumResult); //CHECK FUNCTIONALITY!!!!
-            improperDen = Math.abs(improperDen);
-            while(improperNumResult >= improperDen){
+         int newWhole = 0;
+         if(num < 0 && den < 0){
+            num = Math.abs(num); 
+            den = Math.abs(den);
+            while(num >= den){
                newWhole++;
-               improperNumResult -= improperDen;  // Check order of these
+               num -= den;
             }
-         } else if(improperNumResult < 0){
-            improperNumResult = Math.abs(improperNumResult);
-            while(improperNumResult >= improperDen){
+         } else if(num < 0){     // if only the num is negative
+            num = Math.abs(num); // get abs. value of num
+            while(num >= den){   // convert to mixed fraction
                newWhole++;
-               improperNumResult -= improperDen;  // Check order of these
+               num -= den; 
             }
-            
-            if(newWhole != 0){
-               newWhole *= -1;
-            } else{
-               improperNumResult *= -1;
+                                 //Then...
+            if(newWhole != 0){   // If the fraction was a mixed fraction
+               newWhole *= -1;   // multiply the whole by -1 to match negative num
+            } else{              // If the fraction was NOT mixed
+               num *= -1;        // return the num to be negative
             }
-         } else if(improperDen < 0){
-            improperNumResult = Math.abs(improperNumResult); //CHECK FUNCTIONALITY!!!!
-            improperDen = Math.abs(improperDen);
-            while(improperNumResult >= improperDen){
+         } else if(den < 0){     //If only the den is negative
+            num = Math.abs(num); // get abs. val of both num and den
+            den = Math.abs(den); 
+            while(num >= den){   // Convert to mixed fraction
                newWhole++;
-               improperNumResult -= improperDen;  // Check order of these
+               num -= den;  
             }
-            improperNumResult *= -1; //EAEAEEAES
-            System.out.println("improperNumResult post if: " + improperNumResult); //DELETE
-         } else{
-            while(improperNumResult >= improperDen){
+            num *= -1;           // Make the num negative (instead of den for formatting)
+         } else{                 // If neither num or den are negative
+            while(num >= den){   // Convert to mixed fracion
                newWhole++;
-               improperNumResult -= improperDen;  // Check order of these
+               num -= den;
             }
          }
 
-         System.out.println("improperNumResult: " + improperNumResult); //DELETE
-
-         if(newWhole == 0 ){
-            result = improperNumResult + "/" + improperDen;
-            //System.out.println("result:" + result); // DELETE
-         } else if(improperNumResult == 0){
-            result = newWhole + "";
-            //System.out.println("result:" + result); // DELETE
-         } else {
-            result = newWhole + " " + improperNumResult + "/" + improperDen;
-            //System.out.println("result:" + result); // DELETE
+         if(newWhole == 0 ){            // If fraction was not mixed
+            result = num + "/" + den;   // result is simple fraction (ex. 1/2)
+         } else if(num == 0){           // If num is 0
+            result = newWhole + "";     // result is only the new whole (ex. 2 0/2 --> 2)
+         } else {                       // Else use mixed fraction format (ex. 3 1/2)
+            result = newWhole + " " + num + "/" + den;
          }
          
       }
    }
-
-   System.out.println("result final:" + result);
    return result;
-
    }
-
-   /*
-   public static String mixedFraction(){
-   
-      // ex. use 9/2
-      // 9-2 = 7   --> 1 7/2
-      // 7-2 = 5   --> 1+1 = 2 5/2
-      // 5-2 = 3   --> 1+1+1 = 3 3/2
-      // 3-2 = 1   --> 1+1+1+1 = 4 1/2
-      // 1 not greater than 2, so end loop
-      // mixed = newWhole" "Num"/"Den
-
-      int whole = 0;
-         while(num >= den){
-            whole++;
-            num -= den;
-         }
-   
-   }
-   
-   */
 }
