@@ -114,13 +114,13 @@ public class FracCalc {
       improperNumResult = performOperation(operator, improperNumOp1, improperNumOp2, improperDen); //Performs specified operation
 
       if(operator.equals("*")){         // if operation was multiplication,
-         improperDen *= improperDen;              // square the denominator
+         improperDen *= improperDen;              // quare the denominator
       } else if(operator.equals("/")){  // if operation was division,
          improperDen *= improperNumOp2;           // multiply with reciprocal
       }
 
       String result = "";
-      result = reduceFraction(improperNumResult, improperDen); // Reduce/Simplify result
+      result = reduceFraction(improperNumResult, improperDen); // Reduce/simplify result
       return result;
    }
    
@@ -201,8 +201,7 @@ public class FracCalc {
          int numResult = num1 * num2;
          return numResult;
       } else{
-         // DIVISION is like MULTPLYING by the RECIPROCAL
-         int numResult = num1 * den;
+         int numResult = num1 * den; // Division is like multiplying by the reciprocal
          return numResult;
       }
    }
@@ -224,7 +223,7 @@ public class FracCalc {
       if(gcd == 0){
          return 1; //means no common divisors, so GCD can't be used
       } else{
-         int remainder = a % b;
+         int remainder = a % b;  //Find GCD using Euclid's method
          while(remainder != 0){
             a = b;
             b = remainder;
@@ -241,23 +240,22 @@ public class FracCalc {
    // Return: improperNum (int)
    public static int convertToImproper(int num, int den, int whole){
       int improperNum;
-      if(num == 0){
-         improperNum = whole;
+      if(num == 0){                      // If num is 0
+         improperNum = whole;            // the new num is the whole
       } 
-      if(whole < 0){
-         improperNum = whole * den - num;
-      } else{
-         improperNum = whole * den + num;
+      if(whole < 0){                     // If the whole is negative, whole * den - num
+         improperNum = whole * den - num;// ex. -5 1/2 --> -5 * 2 - 1 --> -11 (-11/2)
+      } else{                            // If whole is positive and num isn't 0
+         improperNum = whole * den + num;// ex. 5 1/2  --> 5 * 2 + 1 --->  11  (11/2)
       }
-      
       return improperNum;
    }
    
    // Method to simplify and reduce an improper fraction
    // into its mixed form; Also works for cases including
    // only whole numbers and regular fractions (ex. 1/2)
-   // Input: 
-   // Return: 
+   // Input: num (int), den (int)
+   // Return: result (String)
    public static String reduceFraction(int num, int den){
       String result = "";
       if(den == 1){         // If the fraction's den is 1,
