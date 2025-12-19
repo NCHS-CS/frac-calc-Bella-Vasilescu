@@ -102,8 +102,15 @@ public class FracCalc {
       int op2Num = num;
       int op2Den = denom;
 
+      if((op1Den == 0) || (op2Den == 0)){
+         System.out.println("Invalid expression! Please try again");
+         return "";
+      } else{
+         
+
       int improperNumOp1 = convertToImproper(op1Num,op1Den, op1Whole); // Converts operator1 to improper fraction form
       int improperNumOp2 = convertToImproper(op2Num,op2Den, op2Whole); // Converts operator2 to improper fraction form
+      
       int improperDen = op1Den * op2Den; // Get the common denom
       
       improperNumOp1 *= op2Den; // Convert fraction (num) to match common denom
@@ -116,13 +123,23 @@ public class FracCalc {
       if(operator.equals("*")){         // if operation was multiplication,
          improperDen *= improperDen;              // quare the denominator
       } else if(operator.equals("/")){  // if operation was division,
-         improperDen *= improperNumOp2;           // multiply with reciprocal
+         if(improperNumOp2 == 0){
+            System.out.println("Invalid expression! Please try again");
+            return "";
+         } else{
+            improperDen *= improperNumOp2;           // multiply with reciprocal
+         }
       }
-
+      
       String result = "";
       result = reduceFraction(improperNumResult, improperDen); // Reduce/simplify result
+      
       return result;
+      
+      }
    }
+   
+   
    
    // Returns a string that is helpful to the user about how
    // to use the program. These are instructions to the user.
